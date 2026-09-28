@@ -14,6 +14,7 @@ mod cursor;
 mod devin;
 mod generic_jsonl;
 mod kiro;
+mod mistral_vibe;
 mod omp;
 mod opencode;
 mod passive;
@@ -28,6 +29,8 @@ static CURSOR: cursor::CursorSessionReader = cursor::CursorSessionReader;
 static OPENCODE: opencode::OpenCodeSessionReader = opencode::OpenCodeSessionReader;
 static PI: pi::PiSessionReader = pi::PiSessionReader;
 static OMP: omp::OmpSessionReader = omp::OmpSessionReader;
+static MISTRAL_VIBE: mistral_vibe::MistralVibeSessionReader =
+    mistral_vibe::MistralVibeSessionReader;
 static ANTIGRAVITY: antigravity::AntigravitySessionReader = antigravity::AntigravitySessionReader;
 static COPILOT: copilot::CopilotSessionReader = copilot::CopilotSessionReader;
 static CLINE: cline::ClineSessionReader = cline::ClineSessionReader;
@@ -59,6 +62,7 @@ pub fn reader_for(agent: &str) -> &'static dyn SessionReader {
         "kiro" => &KIRO,
         "amp-code" => &AMP,
         "omp" => &OMP,
+        "mistral-vibe" => &MISTRAL_VIBE,
         "pi" => &PI,
         "antigravity" => &ANTIGRAVITY,
         "windsurf" => &WINDSURF,
@@ -77,6 +81,7 @@ pub fn has_dedicated_reader(agent: &str) -> bool {
             | "cursor"
             | "opencode"
             | "omp"
+            | "mistral-vibe"
             | "pi"
             | "antigravity"
             | "copilot"
@@ -110,6 +115,9 @@ pub(crate) fn read_source(source: &RawSource) -> anyhow::Result<std::borrow::Cow
         RawSource::CopilotCliBundle { .. } => {
             anyhow::bail!("Copilot bundle must be handled by the Copilot adapter")
         }
+        RawSource::MistralVibeUnifiedBundle { .. } => {
+            anyhow::bail!("Mistral Vibe bundle must be handled by the Mistral Vibe adapter")
+        }
     }
 }
 
@@ -134,6 +142,7 @@ mod tests {
             "cursor",
             "opencode",
             "omp",
+            "mistral-vibe",
             "pi",
             "antigravity",
             "copilot",

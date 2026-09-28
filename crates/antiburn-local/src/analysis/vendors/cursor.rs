@@ -62,6 +62,9 @@ impl SessionReader for CursorSessionReader {
             RawSource::CopilotCliBundle { .. } => {
                 anyhow::bail!("Copilot bundle is not a Cursor source")
             }
+            RawSource::MistralVibeUnifiedBundle { .. } => {
+                anyhow::bail!("Mistral Vibe bundle is not a Cursor source")
+            }
         };
         sink.finish(summary);
         Ok(VisitOutcome::Unvalidated)

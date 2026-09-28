@@ -20,6 +20,10 @@ fn source_format_serde_keys_are_stable() {
         (SourceFormat::OpenCodeSqliteV2, "open_code_sqlite_v2"),
         (SourceFormat::PiV3Jsonl, "pi_v3_jsonl"),
         (SourceFormat::OmpV3Jsonl, "omp_v3_jsonl"),
+        (
+            SourceFormat::MistralVibeUnifiedStoreV1,
+            "mistral_vibe_unified_store_v1",
+        ),
         (SourceFormat::CursorJsonl, "cursor_jsonl"),
         (SourceFormat::CursorCliAgentJsonl, "cursor_cli_agent_jsonl"),
         (SourceFormat::CursorCliStoreDb, "cursor_cli_store_db"),

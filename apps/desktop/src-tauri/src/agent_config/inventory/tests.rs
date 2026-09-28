@@ -33,6 +33,8 @@ fn indexed_identity_aliases_cover_all_native_agents() {
         (AgentKind::AmpCode, "amp-code"),
         (AgentKind::Antigravity, "antigravity"),
         (AgentKind::Windsurf, "devin"),
+        (AgentKind::Omp, "omp"),
+        (AgentKind::MistralVibe, "mistral-vibe"),
     ];
     for (agent, identity) in cases {
         assert!(

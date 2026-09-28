@@ -22,6 +22,14 @@ CI changes, and documentation that no user acts on stay out — see
 
 ### Added
 
+- Mistral Vibe (`mistral-vibe`) sessions under
+  `~/.vibe/logs/session/unified` are discovered as their own agent. Thinking
+  and old-model findings can appear when a session pins its model alias;
+  usage is a session cumulative, other checks stay unsupported, and this
+  version cannot report a clean Burn Check result.
+
+### Added
+
 - Oh My Pi (`omp`) sessions under `~/.omp/agent/sessions` are discovered as
   their own agent. Depth, thinking, and old-model findings can appear; other
   journal types fail closed, and this version cannot report a clean Burn Check

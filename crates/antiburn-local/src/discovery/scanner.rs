@@ -856,6 +856,14 @@ fn apply_metadata_from_value(metadata: &mut SessionMetadata, value: &serde_json:
     if !saw_direct_cwd && let Some(path) = extract_cwd_from_value(value) {
         metadata.cwd = Some(path);
     }
+
+    if !saw_direct_cwd
+        && let Some(cwd) = value
+            .pointer("/environment/working_directory")
+            .and_then(|v| v.as_str())
+    {
+        metadata.cwd = Some(cwd.to_string());
+    }
 }
 
 fn extract_cwd_from_value(value: &serde_json::Value) -> Option<String> {
@@ -1544,6 +1552,15 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_infer_agent_type_mistral_vibe() {
+        let path = agents::mistral_vibe::sample_log_path(Path::new(FAKE_HOME));
+        assert_eq!(
+            Explorers::DISK.infer_agent_type(&path),
+            AgentKind::MistralVibe
+        );
+    }
+
+    #[tokio::test]
     async fn test_infer_agent_type_unknown_defaults_to_claude() {
         let path = Path::new("/tmp/some/random/session.jsonl");
         assert_eq!(Explorers::DISK.infer_agent_type(path), AgentKind::Claude);
@@ -1610,6 +1627,11 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_agent_type_display_mistral_vibe() {
+        assert_eq!(AgentKind::MistralVibe.to_string(), "mistral-vibe");
+    }
+
+    #[tokio::test]
     async fn test_parse_metadata_session_id_and_cwd() {
         let dir = TempDir::new().unwrap();
         let content = r#"{"session_id":"abc-123","cwd":"/Users/foo/bar"}
@@ -1654,6 +1676,17 @@ mod tests {
         let metadata = parse_session_metadata(&file).await;
 
         assert_eq!(metadata.cwd, Some("/opt/app".to_string()));
+    }
+
+    #[tokio::test]
+    async fn test_parse_metadata_environment_working_directory() {
+        let dir = TempDir::new().unwrap();
+        let content =
+            r#"{"session_id":"abc","environment":{"working_directory":"/home/user/repo"}}"#;
+        let file = write_temp_file(dir.path(), "meta.json", content).await;
+        let metadata = parse_session_metadata(&file).await;
+        assert_eq!(metadata.session_id, Some("abc".to_string()));
+        assert_eq!(metadata.cwd, Some("/home/user/repo".to_string()));
     }
 
     #[tokio::test]

@@ -49,6 +49,9 @@ pub enum RawSource {
         events_path: PathBuf,
         db_path: PathBuf,
     },
+    /// Mistral Vibe unified session store: a session directory holding
+    /// `meta.json`, `CURRENT`, `journal/`, and `generations/`.
+    MistralVibeUnifiedBundle { session_dir: PathBuf },
 }
 
 /// One unit of work handed to the analysis pipeline: a single live session.

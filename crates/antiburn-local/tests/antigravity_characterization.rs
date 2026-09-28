@@ -23,6 +23,7 @@ fn input(source: RawSource) -> SessionInput {
         RawSource::KiroCliV2Bundle { .. } => SourceFormat::Uncharacterized,
         RawSource::KiroCliV3Bundle { .. } => SourceFormat::Uncharacterized,
         RawSource::CopilotCliBundle { .. } => SourceFormat::Uncharacterized,
+        RawSource::MistralVibeUnifiedBundle { .. } => SourceFormat::Uncharacterized,
     };
     SessionInput {
         agent: "antigravity".into(),

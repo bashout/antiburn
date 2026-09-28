@@ -91,6 +91,9 @@ impl SessionReader for OpenCodeSessionReader {
             RawSource::CopilotCliBundle { .. } => {
                 anyhow::bail!("Copilot bundle is not an OpenCode source")
             }
+            RawSource::MistralVibeUnifiedBundle { .. } => {
+                anyhow::bail!("Mistral Vibe bundle is not an OpenCode source")
+            }
         };
         if input.fork_parent_session_id.is_some() {
             summary

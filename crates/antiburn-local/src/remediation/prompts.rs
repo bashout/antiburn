@@ -479,6 +479,7 @@ fn recommendation_support(
         | AgentKind::Kiro
         | AgentKind::AmpCode
         | AgentKind::Omp
+        | AgentKind::MistralVibe
         | AgentKind::Windsurf => false,
     };
     if supported {
@@ -559,6 +560,9 @@ fn source_matches_agent(agent: AgentKind, source: SourceFormat) -> bool {
         // Oh My Pi ships findings only. No OMP config target is characterized,
         // so no prompt can name a control to change.
         AgentKind::Omp => false,
+        // Mistral Vibe ships findings only. No Vibe config target is
+        // characterized, so no prompt can name a control to change.
+        AgentKind::MistralVibe => false,
     }
 }
 

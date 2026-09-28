@@ -1518,6 +1518,7 @@ impl RemediationController {
             AgentKind::Windsurf => SourceFormat::DevinLocalSqlite,
             AgentKind::Pi => SourceFormat::PiV3Jsonl,
             AgentKind::Omp => SourceFormat::OmpV3Jsonl,
+            AgentKind::MistralVibe => SourceFormat::MistralVibeUnifiedStoreV1,
         };
         let cause = match resource.kind {
             crate::agent_config::ResourceKind::McpServer => FindingCause::UnusedMcpServer {
@@ -2217,6 +2218,7 @@ fn verification_source_matches_agent(agent: &str, source_format: SourceFormat) -
             )
             | ("pi", SourceFormat::PiV3Jsonl)
             | ("omp", SourceFormat::OmpV3Jsonl)
+            | ("mistral-vibe", SourceFormat::MistralVibeUnifiedStoreV1)
     )
 }
 

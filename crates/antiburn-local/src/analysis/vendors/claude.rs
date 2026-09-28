@@ -618,6 +618,9 @@ impl SessionReader for ClaudeSessionReader {
                 RawSource::CopilotCliBundle { .. } => {
                     anyhow::bail!("Copilot bundle is not a Claude source")
                 }
+                RawSource::MistralVibeUnifiedBundle { .. } => {
+                    anyhow::bail!("Mistral Vibe bundle is not a Claude source")
+                }
             };
             sink.finish(state.into_summary());
             Ok(VisitOutcome::Unvalidated)

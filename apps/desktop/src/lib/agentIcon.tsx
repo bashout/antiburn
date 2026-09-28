@@ -35,6 +35,7 @@ import {
   siCline,
   siCursor,
   siGithubcopilot,
+  siMistralai,
   siOpencode,
   siPi,
   siWindsurf,
@@ -61,6 +62,7 @@ export const BRAND_MARKS: Record<string, BrandMark> = {
   windsurf: fromSimpleIcons(siWindsurf),
   pi: fromSimpleIcons(siPi),
   omp: fromSimpleIcons(siPi),
+  "mistral-vibe": fromSimpleIcons(siMistralai),
   codex: OPENAI_MARK,
   antigravity: ANTIGRAVITY_MARK,
 }

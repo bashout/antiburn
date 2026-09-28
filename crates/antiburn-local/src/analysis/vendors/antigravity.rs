@@ -2769,6 +2769,9 @@ mod tests {
             RawSource::KiroCliV2Bundle { .. } => crate::analysis::SourceFormat::Uncharacterized,
             RawSource::KiroCliV3Bundle { .. } => crate::analysis::SourceFormat::Uncharacterized,
             RawSource::CopilotCliBundle { .. } => crate::analysis::SourceFormat::Uncharacterized,
+            RawSource::MistralVibeUnifiedBundle { .. } => {
+                crate::analysis::SourceFormat::Uncharacterized
+            }
         };
         SessionInput {
             agent: "antigravity".to_owned(),

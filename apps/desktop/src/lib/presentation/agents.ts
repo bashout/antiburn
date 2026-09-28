@@ -109,6 +109,12 @@ const AGENTS: Record<string, AgentInfo> = {
     defaultSurface: "cli",
     supportsAnalysis: true,
   },
+  "mistral-vibe": {
+    displayName: "Mistral Vibe",
+    icon: "mistral-vibe",
+    defaultSurface: "cli",
+    supportsAnalysis: true,
+  },
 }
 
 /** Every agent slug the registry knows, in declaration order. */

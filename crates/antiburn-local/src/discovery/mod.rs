@@ -107,6 +107,7 @@ pub const MATCHER_PRECEDENCE: &[AgentKind] = &[
     AgentKind::AmpCode,
     AgentKind::Omp,
     AgentKind::Pi,
+    AgentKind::MistralVibe,
     AgentKind::Antigravity,
     AgentKind::Copilot,
     AgentKind::Windsurf,
@@ -681,6 +682,7 @@ pub fn disk_explorer_for(kind: &AgentKind) -> &'static dyn AgentExplorer {
         AgentKind::Windsurf => &agents::windsurf::DISK_WINDSURF,
         AgentKind::Omp => &agents::omp::OmpExplorer,
         AgentKind::Pi => &agents::pi::PiExplorer,
+        AgentKind::MistralVibe => &agents::mistral_vibe::MistralVibeExplorer,
     }
 }
 

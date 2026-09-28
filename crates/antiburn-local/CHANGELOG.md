@@ -19,6 +19,20 @@ version and refuses the release if there is none.
 
 ### Added
 
+- Add `AgentKind::MistralVibe` and `SourceFormat::MistralVibeUnifiedStoreV1`.
+  Discovery reads `~/.vibe/logs/session/unified/<session-id>`, honouring
+  `VIBE_HOME`; the `session_logging.save_dir` config key and `child-*`
+  subagent stores are not discovered. The reader validates the store format
+  pinned in `CURRENT` (`mistral.vibe.unified-session-store/v1`, minor 7),
+  takes the session identity and working directory from `meta.json`, the
+  cumulative token totals from the newest journal projection state, tool
+  executions from tool intents, and the model alias and reasoning effort from
+  the newest generation `runtime-state.json`. Unknown store formats and
+  journal rows fail closed. Model-overthinking and old-model findings are
+  allowed; request-scoped checks, subagent facts, and clean results are not.
+
+### Added
+
 - Add `AgentKind::Omp` and `SourceFormat::OmpV3Jsonl`. Discovery reads
   `~/.omp/agent/sessions`, honouring `PI_CONFIG_DIR` and the default-profile
   `PI_CODING_AGENT_DIR`; named profiles and XDG redirects are not discovered.

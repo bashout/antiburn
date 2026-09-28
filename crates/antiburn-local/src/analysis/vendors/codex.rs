@@ -143,6 +143,9 @@ impl SessionReader for CodexSessionReader {
                 RawSource::CopilotCliBundle { .. } => {
                     anyhow::bail!("Copilot bundle is not a Codex source")
                 }
+                RawSource::MistralVibeUnifiedBundle { .. } => {
+                    anyhow::bail!("Mistral Vibe bundle is not a Codex source")
+                }
             };
             let summary = state.finish(sink);
             sink.finish(summary);

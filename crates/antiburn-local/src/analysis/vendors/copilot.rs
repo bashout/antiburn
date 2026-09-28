@@ -91,6 +91,9 @@ impl SessionReader for CopilotSessionReader {
             RawSource::KiroCliV2Bundle { .. } => anyhow::bail!("Copilot CLI source must be JSONL"),
             RawSource::KiroCliV3Bundle { .. } => anyhow::bail!("Copilot CLI source must be JSONL"),
             RawSource::CopilotCliBundle { .. } => unreachable!(),
+            RawSource::MistralVibeUnifiedBundle { .. } => {
+                anyhow::bail!("Copilot CLI source must be JSONL")
+            }
         };
         sink.finish(state.finish());
         Ok(VisitOutcome::Unvalidated)
@@ -163,6 +166,7 @@ impl CopilotSessionReader {
             RawSource::KiroCliV2Bundle { .. } => None,
             RawSource::KiroCliV3Bundle { .. } => None,
             RawSource::CopilotCliBundle { .. } => None,
+            RawSource::MistralVibeUnifiedBundle { .. } => None,
         };
         let mut state = CopilotState {
             emit_shutdown_usage,

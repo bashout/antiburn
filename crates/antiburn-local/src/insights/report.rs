@@ -338,6 +338,14 @@ fn source_supports_finding(detector: DetectorId, format: crate::analysis::Source
                 | DetectorId::ModelOverthinking
                 | DetectorId::OldModelUsage,
         ) | (
+            // The Mistral Vibe unified store keeps a cumulative session
+            // token total, not per-request context samples, so overdepth
+            // and cache churn have no request-scoped evidence. A subagent
+            // check has no evidence: this reader does not open the child
+            // stores a Vibe parent session spawns.
+            SourceFormat::MistralVibeUnifiedStoreV1,
+            DetectorId::ModelOverthinking | DetectorId::OldModelUsage,
+        ) | (
             SourceFormat::CursorJsonl
                 | SourceFormat::CursorCliAgentJsonl
                 | SourceFormat::CursorCliStoreDb

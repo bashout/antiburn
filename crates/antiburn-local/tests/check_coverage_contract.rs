@@ -106,6 +106,7 @@ source_formats! {
     OpenCodeSqliteV2 => "open_code_sqlite_v2",
     PiV3Jsonl => "pi_v3_jsonl",
     OmpV3Jsonl => "omp_v3_jsonl",
+    MistralVibeUnifiedStoreV1 => "mistral_vibe_unified_store_v1",
     CursorJsonl => "cursor_jsonl",
     CursorCliAgentJsonl => "cursor_cli_agent_jsonl",
     CursorCliStoreDb => "cursor_cli_store_db",
@@ -172,6 +173,7 @@ fn source_capabilities(format: SourceFormat) -> SourceCapabilities {
         }
         SourceFormat::PiV3Jsonl => SourceCapabilities::pi(),
         SourceFormat::OmpV3Jsonl => SourceCapabilities::omp(),
+        SourceFormat::MistralVibeUnifiedStoreV1 => SourceCapabilities::mistral_vibe(),
         SourceFormat::CursorJsonl
         | SourceFormat::CursorCliAgentJsonl
         | SourceFormat::CursorCliStoreDb
@@ -326,6 +328,7 @@ fn approved_finding_only_limits_never_turn_complete_facts_into_clean() {
         SourceFormat::ClineMessagesContractV1,
         SourceFormat::AmpThreadJson,
         SourceFormat::OmpV3Jsonl,
+        SourceFormat::MistralVibeUnifiedStoreV1,
         SourceFormat::DevinLocalSqlite,
     ] {
         let row = complete_evidence(format);

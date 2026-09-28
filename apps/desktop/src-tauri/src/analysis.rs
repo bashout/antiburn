@@ -766,6 +766,14 @@ async fn raw_source_with_format(
             messages_path: metadata_path.parent()?.join("messages.jsonl"),
         });
     }
+    if agent == AgentKind::MistralVibe && format == SourceFormat::MistralVibeUnifiedStoreV1 {
+        let SessionSource::File(metadata_path) = source else {
+            return None;
+        };
+        return Some(RawSource::MistralVibeUnifiedBundle {
+            session_dir: metadata_path.parent()?.to_path_buf(),
+        });
+    }
     if agent == AgentKind::Copilot && format == SourceFormat::CopilotCliJsonl {
         let SessionSource::File(events_path) = source else {
             return None;
@@ -803,6 +811,7 @@ pub(crate) fn source_format(agent: AgentKind, source: &SessionSource) -> SourceF
         (AgentKind::Codex, _) => SourceFormat::CodexRolloutJsonl,
         (AgentKind::Pi, _) => SourceFormat::PiV3Jsonl,
         (AgentKind::Omp, _) => SourceFormat::OmpV3Jsonl,
+        (AgentKind::MistralVibe, _) => SourceFormat::MistralVibeUnifiedStoreV1,
         (AgentKind::OpenCode, SessionSource::ProviderDb { .. }) => SourceFormat::OpenCodeSqliteV2,
         (AgentKind::OpenCode, _) => SourceFormat::OpenCodeJsonl,
         (AgentKind::Cursor, SessionSource::ProviderDb { db_path, .. })
@@ -1634,6 +1643,26 @@ fn stream_vendor_with_hooks(
                 }
             }
             RawSource::KiroCliV3Bundle { .. } => continue,
+            RawSource::MistralVibeUnifiedBundle { session_dir, .. } if index == 0 => {
+                let metadata_path = session_dir.join("meta.json");
+                let bundle_source = SessionSource::File(metadata_path.clone());
+                let bundle_claim = fingerprint_of(&bundle_source);
+                parent_fingerprint = Some(bundle_claim.clone());
+                let outcome = match adapter.visit(input, &mut accumulator) {
+                    Ok(outcome) => outcome,
+                    Err(_) => {
+                        return StreamOutcome::ParentUnreadable(UnreadableReason::AdapterFailed);
+                    }
+                };
+                if fingerprint_of(&bundle_source) != bundle_claim {
+                    Ok(VisitOutcome::SourceChanged(
+                        antiburn_local::analysis::SourceChangedReason::FingerprintMismatch,
+                    ))
+                } else {
+                    Ok(outcome)
+                }
+            }
+            RawSource::MistralVibeUnifiedBundle { .. } => continue,
         };
         match result {
             Ok(outcome @ VisitOutcome::SourceChanged(_)) => {

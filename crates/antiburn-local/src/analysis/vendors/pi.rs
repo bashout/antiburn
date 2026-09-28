@@ -159,6 +159,9 @@ impl PiSessionReader {
                 RawSource::CopilotCliBundle { .. } => {
                     anyhow::bail!("Copilot bundle is not a {label} source")
                 }
+                RawSource::MistralVibeUnifiedBundle { .. } => {
+                    anyhow::bail!("Mistral Vibe bundle is not a {label} source")
+                }
             };
             sink.finish(state.finish());
             Ok(VisitOutcome::Unvalidated)

@@ -39,6 +39,8 @@ pub enum AgentKind {
     Omp,
     #[serde(rename = "pi")]
     Pi,
+    #[serde(rename = "mistral-vibe")]
+    MistralVibe,
 }
 
 impl std::fmt::Display for AgentKind {
@@ -63,6 +65,7 @@ impl AgentKind {
         AgentKind::Windsurf,
         AgentKind::Omp,
         AgentKind::Pi,
+        AgentKind::MistralVibe,
     ];
 
     /// Stable kebab-case slug used for local serialization.
@@ -80,6 +83,7 @@ impl AgentKind {
             AgentKind::Windsurf => "windsurf",
             AgentKind::Omp => "omp",
             AgentKind::Pi => "pi",
+            AgentKind::MistralVibe => "mistral-vibe",
         }
     }
 
@@ -106,6 +110,7 @@ impl AgentKind {
             AgentKind::Windsurf => "Devin",
             AgentKind::Omp => "Oh My Pi",
             AgentKind::Pi => "Pi",
+            AgentKind::MistralVibe => "Mistral Vibe",
         }
     }
 }

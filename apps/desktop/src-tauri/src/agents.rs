@@ -76,6 +76,7 @@ mod tests {
                     | AgentKind::OpenCode
                     | AgentKind::Pi
                     | AgentKind::Omp
+                    | AgentKind::MistralVibe
                     | AgentKind::Antigravity
                     | AgentKind::Copilot
                     | AgentKind::Cline
@@ -113,6 +114,7 @@ mod tests {
                 "windsurf",
                 "omp",
                 "pi",
+                "mistral-vibe",
             ]
         );
         assert_eq!(evidence_cohort().len(), AgentKind::ALL.len());

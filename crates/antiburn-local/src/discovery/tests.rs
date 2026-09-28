@@ -925,6 +925,7 @@ fn surface_paths_each_agent_returns_expected_shape() {
         AgentKind::AmpCode,
         AgentKind::Omp,
         AgentKind::Pi,
+        AgentKind::MistralVibe,
     ] {
         let sp = Explorers::DISK.surface_paths_for(&ty, &home);
         assert!(!sp.cli.is_empty(), "{ty:?} should expose CLI roots");

@@ -360,6 +360,7 @@ pub enum SourceFormat {
     OpenCodeSqliteV2,
     PiV3Jsonl,
     OmpV3Jsonl,
+    MistralVibeUnifiedStoreV1,
     CursorJsonl,
     CursorCliAgentJsonl,
     CursorCliStoreDb,
@@ -797,6 +798,41 @@ impl SourceCapabilities {
         }
     }
 
+    /// Mistral Vibe unified session store v1: a hash-chained `journal/`
+    /// event log with per-action completion usage and tool calls, plus
+    /// generation snapshots that carry the session model alias and the
+    /// reasoning effort. The model alias is written only when a session
+    /// pins one, so model facts are conditional and the docs state the
+    /// limit. The session token total is a cumulative count. No subagent,
+    /// skill, or MCP fact is retained by this reader.
+    pub fn mistral_vibe() -> Self {
+        Self {
+            source_format: SourceFormat::MistralVibeUnifiedStoreV1,
+            request_context_tokens: false,
+            cache_write_tokens: false,
+            timestamps_and_order: true,
+            tool_invocations: true,
+            skill_inventory: false,
+            mcp_inventory: false,
+            tool_definitions: false,
+            model_identity: true,
+            token_classes: true,
+            reasoning_effort_tier: true,
+            fast_tier: false,
+            service_tier: false,
+            subagent_relationships: false,
+            subagent_models: false,
+            compaction_boundaries: false,
+            thread_identity: false,
+            record_identity: false,
+            linear_record_order: true,
+            quota_incidents: false,
+            provider_incidents: false,
+            harness_version: false,
+            repeated_context_accounting: None,
+        }
+    }
+
     /// Oh My Pi v3 JSONL after the title slot. Model, thinking, usage, and
     /// compaction facts match the Pi core. OMP subagents run in sibling
     /// files this reader does not open, so no subagent fact is observed.
@@ -1022,6 +1058,7 @@ impl From<&RawSource> for SourceKind {
             RawSource::KiroCliV2Bundle { .. } => Self::Jsonl,
             RawSource::KiroCliV3Bundle { .. } => Self::Jsonl,
             RawSource::CopilotCliBundle { .. } => Self::Sqlite,
+            RawSource::MistralVibeUnifiedBundle { .. } => Self::Jsonl,
         }
     }
 }
